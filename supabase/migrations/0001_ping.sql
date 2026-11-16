@@ -5,6 +5,7 @@ create or replace function public.ping()
 returns integer
 language sql
 stable
+set search_path = ''
 as $$
   select 1;
 $$;

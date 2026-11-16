@@ -6,7 +6,7 @@ describe('App', () => {
   it('shows the store name and logo', () => {
     const html = renderToStaticMarkup(<App />)
 
-    expect(html).toContain('Noventa Camisetas')
+    expect(html).toMatch(/<h1[^>]*>Noventa Camisetas<\/h1>/)
     expect(html).toContain('src="/logo.png"')
   })
 })
