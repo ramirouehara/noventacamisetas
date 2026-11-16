@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wireframes Noventa Camisetas</title>
+<style>
+  :root {
+    --ink: #222;
+    --mid: #777;
+    --line: #999;
+    --soft: #e6e6e6;
+    --bg: #fff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #f3f3f3;
+    color: var(--ink);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+  }
+  .screen { margin: 0 0 48px; }
+  .screen > h2 { margin: 0 0 10px; font-size: 16px; }
+  .screen > h2 small { font-weight: normal; color: var(--mid); }
+  .frame {
+    position: relative;
+    background: var(--bg);
+    border: 2px solid var(--ink);
+    overflow: hidden;
+  }
+  .phone { width: 390px; height: 844px; border-radius: 28px; }
+  .desktop { width: 1280px; height: 800px; }
+
+  /* Common pieces */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    display: inline-flex; align-items: center; gap: 8px; font-weight: bold;
+  }
+  .logo .mark {
+    width: 36px; height: 36px; border: 2px solid var(--ink); border-radius: 50%;
+    display: grid; place-items: center; font-size: 15px;
+  }
+  .img {
+    position: relative; background: var(--soft); border: 1px solid var(--line);
+    background-image:
+      linear-gradient(to top right, transparent calc(50% - 1px), var(--line) 50%, transparent calc(50% + 1px)),
+      linear-gradient(to bottom right, transparent calc(50% - 1px), var(--line) 50%, transparent calc(50% + 1px));
+  }
+  .btn {
+    display: inline-block; border: 1.5px solid var(--ink); padding: 9px 12px;
+    background: #fff; text-align: center; font-size: 13px;
+  }
+  .btn.primary { background: var(--soft); font-weight: bold; }
+  .btn.block { display: block; width: 100%; }
+  .btn.disabled { color: var(--mid); border-color: var(--line); }
+  .badge {
+    display: inline-block; border: 1.5px solid var(--ink); padding: 2px 6px;
+    font-size: 11px; font-weight: bold; background: #fff;
+  }
+  .note {
+    border: 1.5px dashed var(--ink); background: #fff; padding: 8px 10px;
+    font-size: 11.5px; line-height: 1.35;
+  }
+  .note b { display: block; margin-bottom: 2px; }
+  .muted { color: var(--mid); }
+  .input {
+    border: 1.5px solid var(--line); padding: 10px; color: var(--mid); background: #fff;
+  }
+  label.lbl { display: block; font-size: 12px; font-weight: bold; margin: 0 0 6px; }
+  .error { font-size: 12px; margin-top: 6px; }
+  .error::before { content: "⚠ "; }
+  .fab {
+    position: absolute; right: 16px; bottom: 20px; width: 56px; height: 56px;
+    border-radius: 50%; border: 2px solid var(--ink); background: var(--soft);
+    display: grid; place-items: center; font-size: 11px; font-weight: bold; text-align: center;
+  }
+  .search { margin: 12px 16px 0; }
+
+  /* Catalog grid */
+  .grid { display: grid; gap: 12px; padding: 14px 16px; }
+  .grid.two { grid-template-columns: 1fr 1fr; }
+  .grid.four { grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 20px 40px; }
+  .card { border: 1px solid var(--line); padding: 8px; }
+  .card .img { height: 150px; }
+  .grid.four .card .img { height: 220px; }
+  .card .name { margin: 8px 0; font-size: 13px; min-height: 32px; }
+  .card.out .img { opacity: .45; }
+  .card.out .name { color: var(--mid); }
+  .card .tag { position: absolute; top: 8px; left: 8px; }
+
+  /* Admin list */
+  .row {
+    display: grid; grid-template-columns: 64px 1fr; gap: 10px;
+    padding: 12px 16px; border-bottom: 1px solid var(--soft);
+  }
+  .row .img { height: 64px; }
+  .row .actions { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .row .actions .btn { padding: 5px 8px; font-size: 11.5px; }
+
+  /* Modal */
+  .overlay { position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+  .modal {
+    position: absolute; left: 24px; right: 24px; top: 300px;
+    background: #fff; border: 2px solid var(--ink); padding: 20px;
+  }
+
+  /* WhatsApp mock */
+  .wa-head { background: var(--soft); padding: 14px 16px; border-bottom: 1px solid var(--line); display: flex; gap: 10px; align-items: center; }
+  .wa-body { padding: 16px; height: 620px; background: #fafafa; }
+  .wa-compose {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 12px;
+    display: flex; gap: 8px; border-top: 1px solid var(--line); background: #fff;
+  }
+  .wa-compose .input { flex: 1; color: var(--ink); }
+
+  /* Single-screen export mode: ?s=01 */
+  body.single { padding: 20px; background: #fff; }
+  body.single .screen { display: none; margin: 0; }
+  body.single .screen.on { display: block; }
+</style>
+</head>
+<body>
+
+<!-- 01 Catálogo (celular) -->
+<section class="screen" id="s01">
+  <h2>01 · Catálogo <small>(visitante, celular 390 × 844) · HU01, HU02, HU06</small></h2>
+  <div class="frame phone">
+    <div class="topbar">
+      <span class="logo"><span class="mark">N★</span> NOVENTA CAMISETAS</span>
+      <span class="muted">IG</span>
+    </div>
+    <div class="search"><div class="input">🔍 Buscar camiseta…</div></div>
+    <div class="grid two">
+      <div class="card" style="position:relative">
+        <div class="img"></div>
+        <div class="name">Camiseta Argentina 1986</div>
+        <span class="btn primary block">Consultar</span>
+      </div>
+      <div class="card">
+        <div class="img"></div>
+        <div class="name">Camiseta Boca Juniors 2000</div>
+        <span class="btn primary block">Consultar</span>
+      </div>
+      <div class="card">
+        <div class="img"></div>
+        <div class="name">Camiseta Real Madrid 2017 Ronaldo</div>
+        <span class="btn primary block">Consultar</span>
+      </div>
+      <div class="card out" style="position:relative">
+        <div class="img"></div>
+        <span class="badge tag">SIN STOCK</span>
+        <div class="name">Camiseta River Plate 1996</div>
+        <span class="btn block">¿Vuelve a entrar?</span>
+      </div>
+    </div>
+    <div class="note" style="position:absolute;left:16px;right:84px;bottom:20px">
+      <b>R1 · Orden del catálogo</b>
+      Primero los disponibles, después los sin stock (foto atenuada + etiqueta). Cada grupo del más nuevo al más viejo. Los dados de baja no aparecen.
+    </div>
+    <div class="fab">WSP</div>
+  </div>
+</section>
+
+<!-- 02 Catálogo vacío -->
+<section class="screen" id="s02">
+  <h2>02 · Catálogo sin artículos <small>(visitante, celular) · HU01</small></h2>
+  <div class="frame phone">
+    <div class="topbar">
+      <span class="logo"><span class="mark">N★</span> NOVENTA CAMISETAS</span>
+      <span class="muted">IG</span>
+    </div>
+    <div style="padding:180px 32px 0;text-align:center">
+      <div class="img" style="width:90px;height:90px;margin:0 auto 20px"></div>
+      <p style="font-size:15px;line-height:1.4">Por ahora no hay artículos cargados.<br>Escribinos por WhatsApp.</p>
+      <span class="btn primary">Escribir por WhatsApp</span>
+    </div>
+    <div class="fab">WSP</div>
+  </div>
+</section>
+
+<!-- 03 Catálogo escritorio -->
+<section class="screen" id="s03">
+  <h2>03 · Catálogo <small>(visitante, escritorio 1280 px) · HU01, HU02, HU06</small></h2>
+  <div class="frame desktop">
+    <div class="topbar" style="padding:16px 40px">
+      <span class="logo"><span class="mark">N★</span> NOVENTA CAMISETAS</span>
+      <div class="input" style="width:360px">🔍 Buscar camiseta…</div>
+      <span class="muted">Instagram · WhatsApp</span>
+    </div>
+    <div class="grid four">
+      <div class="card"><div class="img"></div><div class="name">Camiseta Argentina 1986</div><span class="btn primary block">Consultar</span></div>
+      <div class="card"><div class="img"></div><div class="name">Camiseta Boca Juniors 2000</div><span class="btn primary block">Consultar</span></div>
+      <div class="card"><div class="img"></div><div class="name">Camiseta Real Madrid 2017 Ronaldo</div><span class="btn primary block">Consultar</span></div>
+      <div class="card"><div class="img"></div><div class="name">Camiseta Barcelona 2009 Messi</div><span class="btn primary block">Consultar</span></div>
+      <div class="card"><div class="img"></div><div class="name">Short Selección Argentina 2022</div><span class="btn primary block">Consultar</span></div>
+      <div class="card out" style="position:relative"><div class="img"></div><span class="badge tag">SIN STOCK</span><div class="name">Camiseta River Plate 1996</div><span class="btn block">¿Vuelve a entrar?</span></div>
+    </div>
+    <div class="note" style="position:absolute;right:40px;top:520px;width:520px">
+      <b>R5 · Botón Consultar</b>
+      Disponible: abre WhatsApp con “Hola! Quiero consultar por: &lt;nombre&gt;”. Sin stock: “Hola! ¿Te vuelve a entrar &lt;nombre&gt;?”.
+    </div>
+    <div class="fab" style="right:40px">WSP</div>
+  </div>
+</section>
+
+<!-- 04 WhatsApp -->
+<section class="screen" id="s04">
+  <h2>04 · Resultado de “Consultar” <small>(WhatsApp, fuera del sitio) · HU02</small></h2>
+  <div class="frame phone">
+    <div class="wa-head">
+      <span class="logo"><span class="mark">N★</span></span>
+      <div><b>Noventa Camisetas</b><div class="muted" style="font-size:12px">WhatsApp</div></div>
+    </div>
+    <div class="wa-body">
+      <div class="note">
+        <b>Se abre WhatsApp con el mensaje ya escrito</b>
+        El cliente solo toca Enviar. Precio, talle, pago y envío se arreglan en el chat.
+      </div>
+    </div>
+    <div class="wa-compose">
+      <div class="input">Hola! Quiero consultar por: Camiseta Argentina 1986</div>
+      <span class="btn primary">Enviar</span>
+    </div>
+  </div>
+</section>
+
+<!-- 05 Login -->
+<section class="screen" id="s05">
+  <h2>05 · Login del dueño <small>(/admin/login, celular) · HU03</small></h2>
+  <div class="frame phone">
+    <div style="padding:120px 28px 0">
+      <div style="text-align:center;margin-bottom:28px">
+        <span class="logo" style="flex-direction:column"><span class="mark" style="width:64px;height:64px;font-size:22px">N★</span> Panel de administración</span>
+      </div>
+      <label class="lbl">Email</label>
+      <div class="input" style="margin-bottom:16px">duenio@ejemplo.com</div>
+      <label class="lbl">Contraseña</label>
+      <div class="input">••••••••••</div>
+      <div class="error">Email o contraseña incorrectos.</div>
+      <div style="margin-top:22px"><span class="btn primary block">Ingresar</span></div>
+    </div>
+    <div class="note" style="position:absolute;left:28px;right:28px;bottom:32px">
+      <b>R6 · Acceso</b>
+      No hay link desde el catálogo ni registro: el único usuario es el dueño, creado a mano en Supabase. Entrar a /admin sin sesión redirige acá.
+    </div>
+  </div>
+</section>
+
+<!-- 06 Panel -->
+<section class="screen" id="s06">
+  <h2>06 · Panel del dueño <small>(/admin, celular) · HU04, HU05</small></h2>
+  <div class="frame phone">
+    <div class="topbar">
+      <span class="logo"><span class="mark">N★</span> Mis artículos</span>
+      <span class="muted">Salir</span>
+    </div>
+    <div style="padding:12px 16px"><span class="btn primary block">+ Nuevo artículo</span></div>
+    <div class="row">
+      <div class="img"></div>
+      <div><b>Camiseta Argentina 1986</b> <span class="badge">EN STOCK</span>
+        <div class="actions"><span class="btn">Sin stock</span><span class="btn">Editar</span><span class="btn">Dar de baja</span></div></div>
+    </div>
+    <div class="row">
+      <div class="img"></div>
+      <div><b>Camiseta Boca Juniors 2000</b> <span class="badge">EN STOCK</span>
+        <div class="actions"><span class="btn">Sin stock</span><span class="btn">Editar</span><span class="btn">Dar de baja</span></div></div>
+    </div>
+    <div class="row">
+      <div class="img"></div>
+      <div><b>Camiseta Real Madrid 2017 Ronaldo</b> <span class="badge">EN STOCK</span>
+        <div class="actions"><span class="btn">Sin stock</span><span class="btn">Editar</span><span class="btn">Dar de baja</span></div></div>
+    </div>
+    <div class="row">
+      <div class="img" style="opacity:.45"></div>
+      <div><b class="muted">Camiseta River Plate 1996</b> <span class="badge">SIN STOCK</span>
+        <div class="actions"><span class="btn">Volver a stock</span><span class="btn">Editar</span><span class="btn">Dar de baja</span></div></div>
+    </div>
+    <div class="note" style="position:absolute;left:16px;right:16px;bottom:28px">
+      <b>Mismo orden que el catálogo</b>
+      “Sin stock” lo pasa al final del catálogo con la etiqueta. “Dar de baja” lo oculta de todos lados, pero no se borra (queda con fecha de baja).
+    </div>
+  </div>
+</section>
+
+<!-- 07 Nuevo artículo -->
+<section class="screen" id="s07">
+  <h2>07 · Nuevo / editar artículo <small>(/admin, celular) · HU04, HU05</small></h2>
+  <div class="frame phone">
+    <div class="topbar">
+      <span>← Volver</span>
+      <b>Nuevo artículo</b>
+      <span style="width:50px"></span>
+    </div>
+    <div style="padding:20px 20px 0">
+      <label class="lbl">Nombre</label>
+      <div class="input" style="color:var(--ink)">Ca</div>
+      <div class="error">El nombre debe tener entre 3 y 80 caracteres.</div>
+
+      <label class="lbl" style="margin-top:20px">Foto</label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <span class="btn">📷 Sacar foto</span>
+        <span class="btn">🖼 Elegir de galería</span>
+      </div>
+      <div class="img" style="height:220px;margin-top:12px"></div>
+      <div class="muted" style="font-size:12px;margin-top:6px">Vista previa · se sube comprimida</div>
+      <div class="error">La imagen debe ser JPG, PNG o WEBP de hasta 10 MB.</div>
+
+      <div style="margin-top:20px"><span class="btn primary block">Guardar</span></div>
+      <div style="margin-top:8px"><span class="btn block disabled">Guardando…</span></div>
+    </div>
+    <div class="note" style="position:absolute;left:20px;right:20px;bottom:24px">
+      <b>R2 · R3 · R7</b>
+      Nombre de 3 a 80 caracteres. Foto JPG, PNG o WEBP de hasta 10 MB; antes de subirla se comprime a WEBP con el lado mayor en 1200 px (menos de 300 KB).
+    </div>
+  </div>
+</section>
+
+<!-- 08 Confirmar baja -->
+<section class="screen" id="s08">
+  <h2>08 · Confirmar baja <small>(/admin, celular) · HU05</small></h2>
+  <div class="frame phone">
+    <div class="topbar">
+      <span class="logo"><span class="mark">N★</span> Mis artículos</span>
+      <span class="muted">Salir</span>
+    </div>
+    <div class="row"><div class="img"></div><div><b>Camiseta Argentina 1986</b></div></div>
+    <div class="row"><div class="img"></div><div><b>Camiseta Boca Juniors 2000</b></div></div>
+    <div class="overlay"></div>
+    <div class="modal">
+      <p style="margin:0 0 6px;font-weight:bold;font-size:15px">¿Dar de baja este artículo?</p>
+      <p style="margin:0 0 18px">No se va a mostrar más.</p>
+      <p class="muted" style="margin:0 0 18px">Camiseta Boca Juniors 2000</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <span class="btn">Cancelar</span>
+        <span class="btn primary">Dar de baja</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Export mode: wireframes.html?s=01 shows a single screen.
+  const s = new URLSearchParams(location.search).get('s');
+  if (s) {
+    document.body.classList.add('single');
+    const el = document.getElementById('s' + s);
+    if (el) el.classList.add('on');
+  }
+</script>
+</body>
+</html>
